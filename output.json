@@ -1,0 +1,42 @@
+{
+  "size": "xs",
+  "config": {
+    "accounts": 100000,
+    "transactions": 1000000
+  },
+  "import": {
+    "duration_seconds": 186.4471037387848,
+    "nodes_per_sec": 12411.416385297012,
+    "relationships_per_sec": 11211.39199512427
+  },
+  "benchmarks": {
+    "writes": {
+      "tps": 6893.86
+    },
+    "reads": {
+      "p50_ms": 6.22,
+      "p90_ms": 8.95,
+      "p99_ms": 12.43
+    },
+    "traversal": {
+      "p50_ms": 4.98,
+      "p90_ms": 8.62,
+      "p99_ms": 451.87
+    },
+    "supernode": {
+      "5000_rel_ms": 174.8
+    },
+    "time_range": {
+      "last_30d_ms": 200.65
+    },
+    "concurrency": {
+      "ops_per_sec": 627.1
+    }
+  },
+  "system_metrics": {
+    "cpu_load_percent": 17.63,
+    "memory_used_gb": 8.47,
+    "disk_read_mb_s": 0.0,
+    "disk_write_mb_s": 3.76
+  }
+}
