@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  neo4j_bench_sm:
+    image: neo4j:5.15.0
+    container_name: neo4j_bench_sm
+    environment:
+      NEO4J_AUTH: neo4j/benchmarkpass
+      NEO4J_server_memory_heap_initial__size: 2G
+      NEO4J_server_memory_heap_max__size: 2G
+      NEO4J_server_memory_pagecache_size: 1G
+    ports:
+      - "7480:7474"
+      - "7700:7687"
+    volumes:
+      - neo4j_data_sm:/var/lib/neo4j/data
+      - neo4j_logs_sm:/var/lib/neo4j/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7474/db/neo4j/exec"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  neo4j_benchmark_runner_sm:
+    build: .
+    container_name: neo4j_benchmark_runner_sm
+    environment:
+      NEO4J_HOST: neo4j_bench_sm
+      NEO4J_USER: neo4j
+      NEO4J_PASSWORD: benchmarkpass
+      BENCHMARK_SIZE: sm
+      OUTPUT_FILE: /app/output-sm.json
+      BATCH_SIZE: 5000
+      CONCURRENCY: 10
+    depends_on:
+      neo4j_bench_sm:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    networks:
+      - neo4j_network_sm
+
+volumes:
+  neo4j_data_sm:
+  neo4j_logs_sm:
+
+networks:
+  neo4j_network_sm:
+    driver: bridge
